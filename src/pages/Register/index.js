@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWarehouse } from '@fortawesome/free-solid-svg-icons';
@@ -33,4 +33,4 @@ const Register = () => {
 	);
 };
 
-export default withRouter(Register);
+export default Register;

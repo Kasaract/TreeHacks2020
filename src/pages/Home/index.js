@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 
-import * as articleData from './articles.json'
+import * as articleData from './articles.json';
 
 const Home = ({ history }) => {
 	const onSignOut = () => {
@@ -14,7 +14,6 @@ const Home = ({ history }) => {
 	};
 
 	const [articles, setArticles] = useState(articleData.articles);
-
 
 	if (!firebase.getCurrentUsername()) {
 		return (
@@ -44,18 +43,18 @@ const Home = ({ history }) => {
 			<h1>LOGGED IN!!</h1>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
 			{console.log(articles)}
-			{	
-						articles.map( article => {
-							return (
-						<ArticleCard
-							title = {article.title}
-							author = {article.author}
-							source = {article.source.name}
-							preview = {article.description} />)
+			{articles.map(article => {
+				return (
+					<ArticleCard
+						title={article.title}
+						author={article.author}
+						source={article.source.name}
+						preview={article.description}
+					/>
+				);
 			})}
 		</Layout>
-		
 	);
 };
 
-export default withRouter(Home);
+export default Home;
