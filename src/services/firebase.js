@@ -18,6 +18,14 @@ class Firebase {
 		app.initializeApp(config);
 		this.auth = app.auth();
 		this.database = app.database();
+		this.uiConfig = {
+			signInFlow: 'popup',
+			signInOptions: [
+				app.auth.GoogleAuthProvider.PROVIDER_ID,
+				app.auth.FacebookAuthProvider.PROVIDER_ID,
+				app.auth.TwitterAuthProvider.PROVIDER_ID
+			]
+		};
 	}
 
 	login(email, password) {
@@ -56,6 +64,14 @@ class Firebase {
 
 	getCurrentUsername() {
 		return this.auth.currentUser && this.auth.currentUser.displayName;
+	}
+
+	getUIConfig() {
+		return this.uiConfig;
+	}
+
+	getAuth() {
+		return this.auth;
 	}
 }
 

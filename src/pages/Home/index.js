@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, NavItem, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,9 @@ const Home = ({ history }) => {
 		firebase.logout().then(() => history.push('/'));
 	};
 
-	const [articles, setArticles] = useState(articleData.articles.splice(0, 10));
+	const [articles, setArticles] = useState([]);
+
+	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 
 	const displayArticles = articles.map(article => {
 		return (

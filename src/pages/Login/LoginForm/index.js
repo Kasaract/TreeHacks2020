@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { ErrorMessage, Field, Form, Formik, getIn } from 'formik';
-// import { History } from 'history';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as yup from 'yup';
 
 import firebase from '../../../services/firebase';
@@ -16,6 +16,13 @@ const LoginSchema = yup.object().shape({
 
 function LoginForm({ history }) {
 	// const [alert, setAlert] = useState({ message: null, type: null });
+
+	const uiConfig = {
+		...firebase.getUIConfig(),
+		callbacks: {
+			signInSuccessWithAuthResult: () => history.push('/')
+		}
+	};
 
 	const onSubmit = (values, actions) => {
 		// setAlert({ message: null, type: null });
@@ -33,7 +40,6 @@ function LoginForm({ history }) {
 		firebase.login(values.email, values.password).then(() => {
 			history.push('/');
 		});
-		console.log(values);
 	};
 
 	return (
@@ -44,7 +50,8 @@ function LoginForm({ history }) {
 			}}
 			validationSchema={LoginSchema}
 			onSubmit={onSubmit}
-			render={({ errors, isSubmitting, touched }) => (
+		>
+			{({ errors, isSubmitting, touched }) => (
 				<Form className="form-validate" autoComplete="off">
 					<div className="form-group">
 						<label className="form-label">Email address</label>
@@ -91,13 +98,18 @@ function LoginForm({ history }) {
 						Sign in
 					</button>
 					<hr className="my-3" />
+					<StyledFirebaseAuth
+						uiConfig={uiConfig}
+						firebaseAuth={firebase.getAuth()}
+					/>
+					<hr className="my-3" />
 					<p className="text-sm text-center text-muted mb-0">
 						Don't have an account?&nbsp;
 						<Link to="/register">Register</Link>
 					</p>
 				</Form>
 			)}
-		/>
+		</Formik>
 	);
 }
 
