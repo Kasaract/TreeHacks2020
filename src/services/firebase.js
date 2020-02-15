@@ -16,7 +16,6 @@ class Firebase {
 	constructor() {
 		app.initializeApp(config);
 		this.auth = app.auth();
-		this.database = app.database();
 	}
 
 	login(email, password) {
@@ -30,17 +29,8 @@ class Firebase {
 
 	async register(name, email, password) {
 		await this.auth.createUserWithEmailAndPassword(email, password);
-		let user = this.auth.currentUser;
-		this.writeUserData(user.userId, user.name, user.email);
 		return user.updateProfile({
 			displayName: name
-		});
-	}
-
-	writeUserData(userId, name, email) {
-		this.database.ref('users/' + userId).set({
-			username: name,
-			email: email
 		});
 	}
 
