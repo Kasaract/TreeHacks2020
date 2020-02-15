@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database'
 
 const config = {
 	apiKey: 'AIzaSyCBpDzAUiRY8nyiaNadyUIcjLTJxW41dhU',
@@ -16,6 +17,7 @@ class Firebase {
 	constructor() {
 		app.initializeApp(config);
 		this.auth = app.auth();
+		this.database = app.database();
 	}
 
 	login(email, password) {
@@ -33,6 +35,17 @@ class Firebase {
 			displayName: name
 		});
 	}
+	
+	async addNewUserToDB() {
+		var newUser = this.database.ref('users').push();
+		await newUser.set({
+			username: this.auth.currentUser.displayName,
+			email: this.auth.currentUser.email,
+			saved: "saved",
+			preferences: "preferences",
+			notifications: "notifications"
+        });
+    }
 
 	isInitialized() {
 		return new Promise(resolve => {

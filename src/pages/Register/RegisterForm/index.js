@@ -29,6 +29,7 @@ function RegisterForm({ history }) {
 	async function onRegister(name, email, password) {
 		try {
 			await firebase.register(name, email, password);
+			await firebase.addNewUserToDB();
 		} catch (error) {
 			alert(error.message);
 		}
