@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../../components/Layout/';
-// import LoginForm from './components/RegisterForm/RegisterForm';
+import RegisterForm from './RegisterForm';
 
 const Register = () => {
 	return (
@@ -23,8 +23,7 @@ const Register = () => {
 						<div className="card mx-auto w-100 w-md-75 w-lg-50">
 							<div className="card-header font-weight-bold h4">Register</div>
 							<div className="card-body">
-								{/* <LoginForm /> */}
-								Filler formmm
+								<RegisterForm />
 							</div>
 						</div>
 					</div>
@@ -34,4 +33,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default withRouter(Register);

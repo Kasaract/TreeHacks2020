@@ -2,7 +2,7 @@
 	"name": "treehacks2020",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "recap.ml",
+	"homepage": "https://recap.ml",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.27",
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
@@ -11,13 +11,15 @@
 		"@testing-library/react": "^9.3.2",
 		"@testing-library/user-event": "^7.1.2",
 		"bootstrap": "^4.4.1",
+		"firebase": "^7.8.2",
 		"formik": "^2.1.4",
 		"gh-pages": "^2.2.0",
 		"react": "^16.12.0",
 		"react-bootstrap": "^1.0.0-beta.16",
 		"react-dom": "^16.12.0",
 		"react-router-dom": "^5.1.2",
-		"react-scripts": "3.4.0"
+		"react-scripts": "3.4.0",
+		"yup": "^0.28.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",

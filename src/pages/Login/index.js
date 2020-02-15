@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import { faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Layout from '../../components/Layout';
-// import LoginForm from './components/LoginForm/LoginForm';
+import LoginForm from './LoginForm';
 
 const Login = () => {
 	return (
@@ -25,8 +25,7 @@ const Login = () => {
 								Welcome Back
 							</div>
 							<div className="card-body">
-								{/* <LoginForm /> */}
-								Filler form
+								<LoginForm />
 							</div>
 						</div>
 					</div>
