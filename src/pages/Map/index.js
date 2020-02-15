@@ -6,12 +6,14 @@ import {
 	Marker
 } from 'react-google-maps';
 
+import mapStyles from './mapStyles';
 import * as pointData from './locations.json';
 
 const Map = () => (
 	<GoogleMap
 		defaultZoom={10}
 		defaultCenter={{ lat: 40.712776, lng: -74.005974 }}
+		defaultOptions={{ styles: mapStyles }}
 	>
 		{pointData.spots.map(spot => (
 			<Marker key={spot.id} position={{ lat: spot.lat, lng: spot.lng }} />
