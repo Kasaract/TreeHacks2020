@@ -51,8 +51,7 @@ function RegisterForm({ history }) {
 			}}
 			validationSchema={LoginSchema}
 			onSubmit={onSubmit}
-		>
-			{({ errors, isSubmitting, touched }) => (
+			render={({ errors, isSubmitting, touched }) => (
 				<Form className="form-validate" autoComplete="off">
 					<div className="form-group">
 						<label className="form-label">Name</label>
@@ -128,7 +127,7 @@ function RegisterForm({ history }) {
 					</p>
 				</Form>
 			)}
-		</Formik>
+		/>
 	);
 }
 

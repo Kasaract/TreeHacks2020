@@ -45,10 +45,10 @@ class Firebase {
 	}
 
 	async addNewUserToDB() {
-		var newUser = this.database.ref('users').push();
+		var newUser = this.database.ref('users').child(this.auth.currentUser.uid);
 		await newUser.set({
 			username: this.auth.currentUser.displayName,
-			email: this.auth.currentUser.email,
+			uID: this.auth.currentUser.uid,
 			saved: 'saved',
 			preferences: 'preferences',
 			notifications: 'notifications'
