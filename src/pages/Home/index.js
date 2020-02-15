@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
-import ArticleCard from './ArticleCard';
+import ArticleCard from '../../components/ArticleCard';
 
 import * as articleData from './articles.json';
+import DisplayGoogleMap from './Map';
 
 const Home = ({ history }) => {
 	const onSignOut = () => {
@@ -40,7 +41,10 @@ const Home = ({ history }) => {
 						<NavItem className="my-3 ml-3 mr-5">Login</NavItem>
 					</Link>
 				</Nav>
-				<h1>NOT LOGGED IN</h1>
+				<h4>NOT LOGGED IN</h4>
+				<Row className="d-flex justify-content-center my-3">
+					<DisplayGoogleMap />
+				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
 				</Row>
@@ -57,8 +61,11 @@ const Home = ({ history }) => {
 					</NavItem>
 				</a>
 			</Nav>
-			<h1>LOGGED IN!!</h1>
+			<h4>LOGGED IN!!</h4>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
+			<Row className="d-flex justify-content-center my-3">
+				<DisplayGoogleMap />
+			</Row>
 			<Row className="d-flex flex-wrap justify-content-around px-3">
 				{displayArticles}
 			</Row>
