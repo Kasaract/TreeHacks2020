@@ -42,10 +42,13 @@ const Home = ({ history }) => {
 					<Link to="/login">
 						<NavItem className="my-3 ml-3 mr-5">Login</NavItem>
 					</Link>
+					<Link to="/settings">
+						<NavItem className="my-3 ml-3 mr-5">Settings</NavItem>
+					</Link>
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
 				<Row className="d-flex justify-content-center my-3">
-					<DisplayGoogleMap />
+					{/* <DisplayGoogleMap /> */}
 				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
@@ -66,7 +69,7 @@ const Home = ({ history }) => {
 			<h4>LOGGED IN!!</h4>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
 			<Row className="d-flex justify-content-center my-3">
-				<DisplayGoogleMap />
+				{/* <DisplayGoogleMap /> */}
 			</Row>
 			<Row className="d-flex flex-wrap justify-content-around px-3">
 				{displayArticles}

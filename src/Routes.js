@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DisplayGoogleMap from './pages/Map';
+import Settings from './pages/Settings';
 
 const Routes = () => (
 	<BrowserRouter>
@@ -15,6 +16,7 @@ const Routes = () => (
 			<Route exact path="/login" component={Login} />
 			<Route exact path="/register" component={Register} />
 			<Route exact path="/map" component={DisplayGoogleMap} />
+			<Route exact path="/settings" component={Settings} />
 		</Switch>
 	</BrowserRouter>
 );
