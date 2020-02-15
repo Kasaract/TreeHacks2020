@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database'
 
 const config = {
 	apiKey: 'AIzaSyCBpDzAUiRY8nyiaNadyUIcjLTJxW41dhU',
@@ -16,6 +17,7 @@ class Firebase {
 	constructor() {
 		app.initializeApp(config);
 		this.auth = app.auth();
+		this.database = app.database();
 	}
 
 	login(email, password) {
@@ -29,10 +31,19 @@ class Firebase {
 
 	async register(name, email, password) {
 		await this.auth.createUserWithEmailAndPassword(email, password);
-		return user.updateProfile({
+		return this.auth.currentUser.updateProfile({
 			displayName: name
 		});
 	}
+	
+	async pushUserData() {
+        await this.database.ref('users').set({
+			username: this.auth.currentUser.displayName,
+			saved: {},
+			preferences: {},
+			notifications: {}
+        });
+    }
 
 	isInitialized() {
 		return new Promise(resolve => {
