@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import firebase from './services/firebase';
 import Loader from './components/Loader';
-import ArticleCard from './components/ArticleCard';
 import './App.css';
 import Routes from './Routes';
 

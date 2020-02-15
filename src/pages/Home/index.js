@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import { Nav, NavItem, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
-import ArticleCard from '../../components/ArticleCard';
+import ArticleCard from './ArticleCard';
 
 import * as articleData from './articles.json';
 
@@ -13,7 +13,21 @@ const Home = ({ history }) => {
 		firebase.logout().then(() => history.push('/'));
 	};
 
-	const [articles, setArticles] = useState(articleData.articles);
+	const [articles, setArticles] = useState(articleData.articles.splice(0, 10));
+
+	const displayArticles = articles.map(article => {
+		return (
+			<ArticleCard
+				key={article.publishedAt}
+				title={article.title}
+				author={article.author}
+				source={article.source.name}
+				preview={article.description}
+				image={article.urlToImage}
+				link={article.url}
+			/>
+		);
+	});
 
 	if (!firebase.getCurrentUsername()) {
 		return (
@@ -27,6 +41,9 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<h1>NOT LOGGED IN</h1>
+				<Row className="d-flex flex-wrap justify-content-around px-3">
+					{displayArticles}
+				</Row>
 			</Layout>
 		);
 	}
@@ -42,17 +59,9 @@ const Home = ({ history }) => {
 			</Nav>
 			<h1>LOGGED IN!!</h1>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
-			{console.log(articles)}
-			{articles.map(article => {
-				return (
-					<ArticleCard
-						title={article.title}
-						author={article.author}
-						source={article.source.name}
-						preview={article.description}
-					/>
-				);
-			})}
+			<Row className="d-flex flex-wrap justify-content-around px-3">
+				{displayArticles}
+			</Row>
 		</Layout>
 	);
 };
