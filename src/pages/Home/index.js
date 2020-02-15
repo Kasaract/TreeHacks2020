@@ -10,13 +10,15 @@ import * as articleData from './articles.json';
 import DisplayGoogleMap from './Map';
 
 const Home = ({ history }) => {
+	const [articles, setArticles] = useState([]);
+	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
+	const [zoom, setZoom] = useState(12);
+
+	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
+
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
-
-	const [articles, setArticles] = useState([]);
-
-	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 
 	const displayArticles = articles.map(article => {
 		return (
@@ -47,8 +49,27 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
+				<Row>
+					<button
+						onClick={() => {
+							setCenter({ lat: 56.130367, lng: -106.346771 });
+							setZoom(4);
+						}}
+					>
+						Canada
+					</button>
+					<button
+						onClick={() => {
+							setCenter({ lat: 23.634501, lng: -102.552788 });
+							setZoom(5);
+						}}
+					>
+						Mexico
+					</button>
+					<div>{JSON.stringify(center)}</div>
+				</Row>
 				<Row className="d-flex justify-content-center my-3">
-					{/* <DisplayGoogleMap /> */}
+					<DisplayGoogleMap center={center} zoom={zoom} />
 				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
