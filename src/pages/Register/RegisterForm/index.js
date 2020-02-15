@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik, getIn } from 'formik';
 import * as yup from 'yup';
 
 import firebase from '../../../services/firebase';
+import db from '../../../services/database';
 
 const LoginSchema = yup.object().shape({
 	name: yup.string().required('Please enter a name'),
@@ -29,6 +30,7 @@ function RegisterForm({ history }) {
 	async function onRegister(name, email, password) {
 		try {
 			await firebase.register(name, email, password);
+			db.pushUserData('hi');
 		} catch (error) {
 			alert(error.message);
 		}
