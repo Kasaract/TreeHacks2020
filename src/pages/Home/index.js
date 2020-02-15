@@ -57,8 +57,11 @@ const Home = ({ history }) => {
 	return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
+				<Link to="/saved">
+					<NavItem className="my-3 mx-3">Saved Articles</NavItem>
+				</Link>
 				<a href="#">
-					<NavItem className="my-3 mx-3" onClick={() => onSignOut()}>
+					<NavItem className="my-3 ml-3 mr-5" onClick={() => onSignOut()}>
 						Log out
 					</NavItem>
 				</a>

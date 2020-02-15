@@ -1,0 +1,45 @@
+{
+    "status": "ok",
+    "totalResults": 58117,
+    "articles": [
+      {
+        "source": {
+          "id": "techcrunch",
+          "name": "TechCrunch"
+        },
+        "author": "Jonathan Shieber",
+        "title": "LA-based Retina raises $2.5 million in new funding to expand its customer analysis software",
+        "description": "Casting a cold eye on customer behavior and their future lifetime value has brought the Los Angeles-based startup Retina $2.5 million in new funding. The new financing was anchored by previous seed round investor, the Los Angeles-based venture firm, Crosscut …",
+        "url": "http://techcrunch.com/2020/02/04/la-based-retina-raises-2-5-million-in-new-funding-to-expand-its-customer-analysis-software/",
+        "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/08/GettyImages-916204130.jpg?w=533",
+        "publishedAt": "2020-02-04T15:48:20Z",
+        "content": "Casting a cold eye on customer behavior and their future lifetime value has brought the Los Angeles-based startup Retina $2.5 million in new funding.\r\nThe new financing was anchored by previous seed round investor, the Los Angeles-based venture firm, Crosscut… [+1450 chars]"
+      },
+      {
+        "source": {
+          "id": "techcrunch",
+          "name": "TechCrunch"
+        },
+        "author": "Jonathan Shieber",
+        "title": "Los Angeles’ Gento wants to build an on-demand healthcare staffing marketplace",
+        "description": "With a fresh commitment of $5 million for its on-demand staffing and care management service for at-home health care and nursing facilities, Los Angeles-based Gento is looking to grow. The new financing came from Palisades Growth Capital, and the company said…",
+        "url": "http://techcrunch.com/2020/02/05/los-angeles-gento-wants-to-build-an-on-demand-healthcare-staffing-marketplace/",
+        "urlToImage": "https://techcrunch.com/wp-content/uploads/2017/02/heart_health_sensely_image.jpg?w=600",
+        "publishedAt": "2020-02-05T17:07:51Z",
+        "content": "With a fresh commitment of $5 million for its on-demand staffing and care management service for at-home health care and nursing facilities, Los Angeles-based Gento is looking to grow.\r\nThe new financing came from Palisades Growth Capital, and the company sai… [+1070 chars]"
+      },
+      {
+        "source": {
+          "id": "techcrunch",
+          "name": "TechCrunch"
+        },
+        "author": "Jonathan Shieber",
+        "title": "Los Angeles-based ‘deep tech’ investment firm Riot Ventures is raising a $75M fund",
+        "description": "Riot Ventures, the Los Angeles-based, early-stage and deep technology investment firm is going out to market to raise a $75 million second fund to finance the development of startups in LA and beyond, according to fundraising documents viewed by TechCrunch. T…",
+        "url": "http://techcrunch.com/2020/02/13/los-angeles-based-deep-tech-investment-firm-riot-ventures-is-raising-a-75m-fund/",
+        "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/11/GettyImages-924555482.jpg?w=600",
+        "publishedAt": "2020-02-13T20:26:06Z",
+        "content": "Riot Ventures, the Los Angeles-based, early-stage and deep technology investment firm is going out to market to raise a $75 million second fund to finance the development of startups in LA and beyond, according to fundraising documents viewed by TechCrunch.\r\n… [+2527 chars]"
+      }
+    ]
+}
