@@ -36,12 +36,14 @@ class Firebase {
 		});
 	}
 	
-	async pushUserData() {
-        await this.database.ref('users').set({
+	async addNewUserToDB() {
+		var newUser = this.database.ref('users').push();
+		await newUser.set({
 			username: this.auth.currentUser.displayName,
-			saved: {},
-			preferences: {},
-			notifications: {}
+			email: this.auth.currentUser.email,
+			saved: "saved",
+			preferences: "preferences",
+			notifications: "notifications"
         });
     }
 
