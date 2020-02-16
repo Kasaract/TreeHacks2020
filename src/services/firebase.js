@@ -61,7 +61,8 @@ class Firebase {
 	}
 
 	async pushSelectedArticleJSON(title, author, source, preview, image, link, publishedAt) {
-		let saved = this.database.ref('users/' + this.auth.currentuser.uid).child("saved");
+		console.log("something shouldve happened")
+		let saved = this.database.ref('users/' + this.auth.currentUser.uid).child("saved");
 		var article = saved.push();
 		article.set ({
 			title: title,
