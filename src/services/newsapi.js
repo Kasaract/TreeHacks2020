@@ -24,6 +24,12 @@ class NewsAPI {
         return json;
     }
 
+    getJSONWithCategory(city, category) {
+        let formattedCity = city.replace(/ /, "+");
+        let json = JSON.parse(this.Get(URL + city + '&category='+ category+ API_KEY));
+        return json;
+    }
+
 }
 
 export default new NewsAPI();
