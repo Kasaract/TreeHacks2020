@@ -8,7 +8,7 @@
 	"Phoenix": { "lat": 33.4483771, "lng": -112.0740373, "zoom": 9 },
 	"Dallas": { "lat": 32.7766642, "lng": -96.79698789999999, "zoom": 9 },
 	"Austin": { "lat": 30.267153, "lng": -97.7430608, "zoom": 9 },
-	"San Francisco": { "lat": 37.7749295, "lng": -122.4194155, "zoom": 9 },
+	"San Francisco": { "lat": 37.7749295, "lng": -121.894155, "zoom": 9 },
 	"Seattle": { "lat": 47.6062095, "lng": -122.3320708, "zoom": 9 },
 	"Denver": { "lat": 39.7392358, "lng": -104.990251, "zoom": 9 },
 	"Washington": { "lat": 38.9071923, "lng": -77.0368707, "zoom": 9 },

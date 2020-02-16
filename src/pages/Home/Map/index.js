@@ -11,6 +11,18 @@ import mapStyles from './mapStyles';
 import * as pointData from './locations.json';
 import { Card } from 'react-bootstrap';
 
+function getRandomSign() {
+	const min = Math.ceil(-1);
+	const max = Math.floor(1);
+	const res = Math.floor(Math.random() * (max - min)) + min;
+
+	if (res === 0) {
+		return 1;
+	} else {
+		return -1;
+	}
+}
+
 const Map = ({
 	center,
 	zoom,
@@ -31,6 +43,18 @@ const Map = ({
 		};
 	}, [onChangeSelectedArticle]);
 
+	useEffect(() => {
+		onChangeSelectedArticle(null);
+	}, [articles]); // eslint-disable-line
+
+	var positions = [];
+	for (var i = 0; i < articles.length; i++) {
+		positions.push({
+			lat: center.lat + Math.random() * getRandomSign(),
+			lng: center.lng + Math.random() * getRandomSign()
+		});
+	}
+
 	return (
 		<GoogleMap
 			defaultZoom={10}
@@ -40,16 +64,16 @@ const Map = ({
 			zoom={zoom}
 		>
 			{!!articles &&
-				articles.map(article => (
-					<Marker key={article.title} position={center} />
-				))}
+				articles.map((article, index) => {
+					return <Marker key={article.title} position={positions[index]} />;
+				})}
 
 			{!!selectedArticle && (
 				<InfoWindow
 					onCloseClick={() => {
 						onChangeSelectedArticle(null);
 					}}
-					position={center}
+					position={positions[Math.floor(Math.random() * articles.length)]}
 				>
 					<Card
 						className="my-3 mx-1"

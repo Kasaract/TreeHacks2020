@@ -48,9 +48,6 @@ const Home = ({ history }) => {
 
 	// useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 	useEffect(() => {
-		console.log(
-			`${countryUrl}country=${countryCenterZoom[country].abbrv}&sortBy=popularity${API_KEY}`
-		);
 		axios
 			.get(
 				`${countryUrl}country=${countryCenterZoom[country].abbrv}&sortBy=popularity${API_KEY}`
@@ -60,16 +57,24 @@ const Home = ({ history }) => {
 			})
 			.catch(err => console.log(err));
 	}, [country]);
+
 	useEffect(() => {
 		if (country === 'United States' && city.length > 0) {
 			axios
 				.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
 				.then(res => {
 					setArticles(res.data.articles);
+					// console.log(articles);
+					// var articlesWithPoints = articles.map(article => ({
+					// 	...article,
+					// 	lat: centerZoom[city].lat + getRandomSign() * Math.random(),
+					// 	lng: centerZoom[city].lng + getRandomSign() * Math.random()
+					// }));
+					// setArticles(articlesWithPoints);
 				})
 				.catch(err => console.log(err));
 		}
-	}, [city, country]);
+	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 	useEffect(() => {
 		if (
 			categories.length > 0 &&
