@@ -49,10 +49,13 @@ const ArticleCard = ({
 					</div>
 				</Card.Subtitle>
 				<Card.Text style={{ fontSize: '0.75rem' }}>
-					{preview
-						.split(' ')
-						.slice(0, 15)
-						.join(' ')}
+                    {preview ? (
+                        preview.split(' ').slice(0, 15).join(' ')
+                    ) : (
+                        "no preview available!"
+                    )
+
+                    }
 					{'...'}
 				</Card.Text>
 			</Card.Body>
