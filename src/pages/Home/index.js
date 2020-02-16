@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, NavItem, Row, Dropdown } from 'react-bootstrap';
+import { Nav, NavItem, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
-import { getCenter } from '../../services/map';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
-
 import * as articleData from './articles.json';
 import DisplayGoogleMap from './Map';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-
-const listOfCountries = ['UnitedStates', 'Canada', 'Mexico'];
 
 const centerZoom = {
-	Mexico: {
-		lat: 23.634501,
-		lng: -102.552788,
-		zoom: 5
+	Default: {
+		displayName: 'Default',
+		lat: 38,
+		lng: -95.712891,
+		zoom: 4
 	},
-	Canada: { lat: 56.130367, lng: -106.346771, zoom: 3 },
-	UnitedStates: { lat: 38, lng: -95.712891, zoom: 4 }
+	'New+York+City': {
+		displayName: 'New York City',
+		lat: 40.712776,
+		lng: -74.005974,
+		zoom: 10
+	},
+	'Los+Angeles': {
+		displayName: 'Los Angeles',
+		lat: 34.052235,
+		lng: -118.243683,
+		zoom: 10
+	}
 };
+
+var keys = [];
+for (var k in centerZoom) keys.push(k);
 
 const Home = ({ history }) => {
 	const [articles, setArticles] = useState([]);
-	const [selectedCountries, setSelectedCountries] = useState(['UnitedStates']);
+	const [city, setCity] = useState('');
 	const [center, setCenter] = useState({ lat: 38, lng: -95.712891 });
 	const [zoom, setZoom] = useState(4);
 
@@ -50,25 +58,13 @@ const Home = ({ history }) => {
 		);
 	});
 
-	const handleDropdownOnClick = countryName => {
-		setSelectedCountries([...selectedCountries, countryName]);
-		var zoom = [];
-		var coords = [];
-
-		selectedCountries.forEach(selectedCountry => {
-			coords.push({
-				lat: centerZoom[selectedCountry].lat,
-				lng: centerZoom[selectedCountry].lng
-			});
-			zoom.push(centerZoom[selectedCountry].zoom);
-			console.log(coords);
-			console.log(zoom);
+	const newLocation = city => {
+		setCity(city);
+		setCenter({
+			lat: centerZoom[city.replace(/ /g, '+')].lat,
+			lng: centerZoom[city.replace(/ /g, '+')].lng
 		});
-
-		console.log(coords);
-		console.log(zoom);
-		setCenter(getCenter(coords));
-		setZoom(Math.max(zoom));
+		setZoom(centerZoom[city.replace(/ /g, '+')].zoom);
 	};
 
 	if (!firebase.getCurrentUsername()) {
@@ -86,64 +82,33 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
-				<div class="dropdown">
-					<button
-						class="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="countryDropdown"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					>
-						{
-							listOfCountries.filter(
-								country => !selectedCountries.includes(country)
-							)[0]
-						}
-					</button>
-					{/* <button
-						class="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					>
-						Dropdown button
-					</button> */}
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						{listOfCountries
-							.filter(country => !selectedCountries.includes(country))
-							.map(country => (
-								<a
-									class="dropdown-item"
-									href="#"
-									onClick={() => handleDropdownOnClick(country)}
-								>
-									{country}
-								</a>
-							))}
-					</div>
-				</div>
-
 				<Row>
-					{selectedCountries.map(selectedCountry => (
-						<span className="btn btn-primary">
-							{selectedCountry}
-							{` `}
-							<FontAwesomeIcon
-								icon={faMinus}
-								onClick={() => [
-									...selectedCountries.filter(
-										country => country === selectedCountry
-									)
-								]}
-							/>
-						</span>
-					))}
+					<div class="dropdown">
+						<button
+							class="btn btn-secondary dropdown-toggle"
+							type="button"
+							id="dropdownMenuButton"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							aria-expanded="false"
+						>
+							{city.length > 0 ? centerZoom[city].displayName : 'Select a city'}
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							{keys.map(city => (
+								<div class="dropdown-item" onClick={() => newLocation(city)}>
+									{centerZoom[city].displayName}
+								</div>
+							))}
+						</div>
+					</div>
 				</Row>
 				<Row className="d-flex justify-content-center my-3">
-					<DisplayGoogleMap center={center} zoom={zoom} />
+					<DisplayGoogleMap
+						center={center}
+						zoom={zoom}
+						articlesLength={articles.length}
+					/>
 				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
@@ -161,10 +126,14 @@ const Home = ({ history }) => {
 					</NavItem>
 				</a>
 			</Nav>
-			<h4>LOGGED IN!!</h4>
+			<h4>LOGGED IN!</h4>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
 			<Row className="d-flex justify-content-center my-3">
-				{/* <DisplayGoogleMap /> */}
+				<DisplayGoogleMap
+					center={center}
+					zoom={zoom}
+					articlesLength={articles.length}
+				/>
 			</Row>
 			<Row className="d-flex flex-wrap justify-content-around px-3">
 				{displayArticles}

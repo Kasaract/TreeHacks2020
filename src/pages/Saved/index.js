@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Nav, NavItem, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -10,12 +10,11 @@ import * as savedArticles from './savedarticles.json';
 import DisplayGoogleMap from '../Home/Map';
 
 const Saved = ({ history }) => {
-
-    const onSignOut = () => {
+	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
 
-    const displayArticles = savedArticles.articles.map(article => {
+	const displayArticles = savedArticles.articles.map(article => {
 		return (
 			<ArticleCard
 				key={article.publishedAt}
@@ -29,7 +28,7 @@ const Saved = ({ history }) => {
 		);
 	});
 
-    if (!firebase.getCurrentUsername()) {
+	if (!firebase.getCurrentUsername()) {
 		return (
 			<Layout>
 				<Nav className="d-flex justify-content-end">
@@ -49,9 +48,9 @@ const Saved = ({ history }) => {
 				</Row>
 			</Layout>
 		);
-    }
-    
-    return (
+	}
+
+	return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
 				<Link to="/saved">
@@ -73,7 +72,6 @@ const Saved = ({ history }) => {
 			</Row>
 		</Layout>
 	);
-
 };
 
 export default Saved;

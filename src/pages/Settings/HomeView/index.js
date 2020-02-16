@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { ErrorMessage, Field, Form, Formik, getIn } from 'formik';
-import { Col, Row, Form as FormBootstrap } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { Field, Form, Formik } from 'formik';
 
-function HomeView({ history }) {
-	const onSubmit = (values, actions) => {};
+function HomeView({}) {
+	// const onSubmit = (values, actions) => {};
+	const onSubmit = () => {};
 
 	return (
 		<Formik

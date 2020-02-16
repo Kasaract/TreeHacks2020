@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { ErrorMessage, Field, Form, Formik, getIn } from 'formik';
-import { Col, Row, Form as FormBootstrap } from 'react-bootstrap';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Field, Form, Formik } from 'formik';
 
 const listOfTopics = ['Education', 'Technology', 'Politics'];
 
 function Topics({ history }) {
-	const [topics, setTopics] = useState(['Education']);
+	// const [topics, setTopics] = useState(['Education']);
 
 	const onSubmit = (values, actions) => {};
 

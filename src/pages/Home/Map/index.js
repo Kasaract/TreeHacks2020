@@ -9,19 +9,22 @@ import {
 import mapStyles from './mapStyles';
 import * as pointData from './locations.json';
 
-const Map = ({ center, zoom }) => (
-	<GoogleMap
-		defaultZoom={12}
-		defaultCenter={{ lat: 40.754954, lng: -73.995338 }}
-		defaultOptions={{ styles: mapStyles }}
-		center={center}
-		zoom={zoom}
-	>
-		{pointData.spots.map(spot => (
-			<Marker key={spot.id} position={{ lat: spot.lat, lng: spot.lng }} />
-		))}
-	</GoogleMap>
-);
+const Map = ({ center, zoom, articlesLength }) => {
+	var fillerArray = new Array(articlesLength);
+	return (
+		<GoogleMap
+			defaultZoom={4}
+			defaultCenter={{ lat: 38, lng: -95.712891 }}
+			defaultOptions={{ styles: mapStyles }}
+			center={center}
+			zoom={zoom}
+		>
+			{fillerArray.map(num => (
+				<Marker key={num} position={center} />
+			))}
+		</GoogleMap>
+	);
+};
 
 const WrappedMap = withScriptjs(withGoogleMap(Map));
 
