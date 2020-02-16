@@ -4,7 +4,7 @@
  */
 
 const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
-const GEOCODE_URL = 'https://newsapi.org/v2/everything?q=';
+const URL = 'https://newsapi.org/v2/everything?q=';
  
 
 class NewsAPI {
@@ -20,10 +20,10 @@ class NewsAPI {
 
     getJSON(city) {
         let formattedCity = city.replace(/ /, "+");
-        let json = JSON.parse(this.Get(GEOCODE_URL + city + API_KEY));
-        return json.results[0].geometry.location.lng;
+        let json = JSON.parse(this.Get(URL + city + API_KEY));
+        return json;
     }
 
 }
 
-export default new Geocode();
+export default new NewsAPI();
