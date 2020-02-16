@@ -18,15 +18,17 @@ const ArticleCard = ({
 	preview,
 	image,
 	link,
-	saved
+	saved,
+	onClick
 }) => {
 	return (
 		<Card
 			className="my-3 mx-1 cardParent"
 			style={{ width: '16rem', overflow: 'hidden', borderRadius: '1rem' }}
+			onClick={() => onClick()}
 		>
 			<a href={link} target="_blank" rel="noreferrer noopener">
-				<Card.Img variant="top" src={filler} />
+				<Card.Img variant="top" src={image} />
 			</a>
 			<Card.Body className="p-2">
 				<a href={link} target="_blank" rel="noreferrer noopener">

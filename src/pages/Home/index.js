@@ -37,6 +37,7 @@ var keys = [];
 for (var k in centerZoom) keys.push(k);
 
 const Home = ({ history }) => {
+	const [selectedArticle, setSelectArticle] = useState();
 	const [articles, setArticles] = useState([]);
 	const [city, setCity] = useState('');
 	const [center, setCenter] = useState({ lat: 38, lng: -95.712891 });
@@ -58,6 +59,7 @@ const Home = ({ history }) => {
 				preview={article.description}
 				image={article.urlToImage}
 				link={article.url}
+				onClick={() => setSelectArticle(article)}
 			/>
 		);
 	});
@@ -87,9 +89,9 @@ const Home = ({ history }) => {
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
 				<Row>
-					<div class="dropdown">
+					<div className="dropdown">
 						<button
-							class="btn btn-secondary dropdown-toggle"
+							className="btn btn-secondary dropdown-toggle"
 							type="button"
 							id="dropdownMenuButton"
 							data-toggle="dropdown"
@@ -98,9 +100,13 @@ const Home = ({ history }) => {
 						>
 							{city.length > 0 ? centerZoom[city].displayName : 'Select a city'}
 						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							{keys.map(city => (
-								<div class="dropdown-item" onClick={() => newLocation(city)}>
+								<div
+									key={city}
+									className="dropdown-item"
+									onClick={() => newLocation(city)}
+								>
 									{centerZoom[city].displayName}
 								</div>
 							))}
@@ -111,7 +117,9 @@ const Home = ({ history }) => {
 					<DisplayGoogleMap
 						center={center}
 						zoom={zoom}
-						articlesLength={articles.length}
+						articles={articles}
+						selectedArticle={selectedArticle}
+						onChangeSelectedArticle={setSelectArticle}
 					/>
 				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
