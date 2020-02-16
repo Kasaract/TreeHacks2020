@@ -14,23 +14,24 @@ const Saved = ({ history }) => {
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
-	// if (firebase.getCurrentUsername) {
-		let savedArticles = firebase.getSavedArticlesJSON();
-	// }
-
-	const displayArticles = savedArticles.articles.map(article => {
-		return (
-			<ArticleCard
-				key={article.publishedAt}
-				title={article.title}
-				author={article.author}
-				source={article.source.name}
-				preview={article.description}
-				image={article.urlToImage}
-				link={article.url}
-			/>
-		);
-	});
+	let savedArticles = firebase.getSavedArticlesJSON();
+	var displayArticles = "No Saved Articles"
+	console.log(savedArticles);
+	if (!savedArticles) {
+		displayArticles = savedArticles.articles.map(article => {
+			return (
+				<ArticleCard
+					key={article.publishedAt}
+					title={article.title}
+					author={article.author}
+					source={article.source.name}
+					preview={article.description}
+					image={article.urlToImage}
+					link={article.url}
+				/>
+			);
+		});
+	}
 
 	if (!firebase.getCurrentUsername()) {
 		return (
