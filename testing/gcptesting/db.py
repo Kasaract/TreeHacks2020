@@ -25,15 +25,16 @@ i = 0
 data = {
     "name": "James Jung" + str(i)
 }
-
+with open('/Users/jungwonsuk/treehacks2020/TreeHacks2020/scraper/sample.json', 'r') as jsonfile:
+    data_content = jsonfile.read()
 # Pass the user's idToken to the push method
 while True:
   db.child("articles").push(data)
   time.sleep(3)
   i += 1
-  data = {
-      "name": "James Jung" + str(i)
-  }
+  data = data_content
+
+
 
 # building paths to databse
 # db = firebase.database()
