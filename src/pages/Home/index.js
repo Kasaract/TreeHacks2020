@@ -7,6 +7,7 @@ import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 import * as articleData from './articles.json';
 import * as cityData from './cities.json';
+import * as countryData from './countries.json';
 import newsapi from '../../services/newsapi';
 import { Multiselect } from 'multiselect-react-dropdown';
 
@@ -15,35 +16,23 @@ import axios from 'axios';
 
 // let articleData = newsapi.getJSON('Austin');
 const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
-
 const url = 'https://newsapi.org/v2/everything?';
-
-// const centerZoom = {
-// 	'New York City': {
-// 		lat: 40.712776,
-// 		lng: -74.005974,
-// 		zoom: 9
-// 	},
-// 	'Los Angeles': {
-// 		lat: 34.052235,
-// 		lng: -118.243683,
-// 		zoom: 9
-// 	}
-// // };
-// console.log(cityData);
-// console.log(cityData.default);
-
 const centerZoom = cityData.default;
+const countryCenterZoom = cityData.default;
 
 var keys = [];
 for (var k in centerZoom) keys.push(k);
+
+var countryKeys = [];
+for (var k in countryKeys) countryKeys.push(k);
 
 const Home = ({ history }) => {
 	const [selectedArticle, setSelectArticle] = useState();
 	const [articles, setArticles] = useState([]);
 	const [city, setCity] = useState('New York City');
+	const [country, setCountry] = useState('United States');
 	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
-	const [zoom, setZoom] = useState(10);
+	const [zoom, setZoom] = useState(9);
 	const [categories, setCategories] = useState([]);
 
 	const categoryChoices = [
@@ -96,18 +85,29 @@ const Home = ({ history }) => {
 
 	function onAddCity(selectedList, selectedItem) {
 		setCity(selectedItem);
-		console.log(selectedItem);
-		console.log(cityData.default[city]);
 		if (cityData.default[city]) {
-			setCenter({lat: cityData.default[city].lat, lng: cityData.default[city].lng});
+			setCenter({
+				lat: cityData.default[city].lat,
+				lng: cityData.default[city].lng
+			});
+			setZoom(cityData.default[city].zoom);
 		}
-		
-		console.log(city);
 	}
 
-	const onRemoveCity = (selectedList, removedItem) => {
-		
-	};
+	const onRemoveCity = (selectedList, removedItem) => {};
+
+	function onAddCountry(selectedList, selectedItem) {
+		setCountry(selectedItem);
+		if (countryData.default[country]) {
+			setCenter({
+				lat: countryData.default[country].lat,
+				lng: countryData.default[country].lng
+			});
+			setZoom(countryData.default[country].zoom);
+		}
+	}
+
+	const onRemoveCountry = (selectedList, removedItem) => {};
 
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
@@ -120,7 +120,7 @@ const Home = ({ history }) => {
 		},
 		option: {
 			padding: '3px 2px',
-			fontSize: '0.9rem'
+			fontSize: '0.85rem'
 		}
 	};
 
@@ -158,13 +158,13 @@ const Home = ({ history }) => {
 					<Link to="/login">
 						<NavItem className="my-1 ml-3 mr-5">Login</NavItem>
 					</Link>
-					<Link to="/settings">
+					{/* <Link to="/settings">
 						<NavItem className="my-1 ml-3 mr-5">Settings</NavItem>
-					</Link>
+					</Link> */}
 				</Nav>
 				<Row className="mr-3 ml-3">
 					<Col sm={1} style={{ padding: '0' }}>
-						<div className="dropdown ml-2">
+						{/* <div className="dropdown ml-2">
 							<button
 								className="btn-sm btn-secondary dropdown-toggle"
 								type="button"
@@ -190,8 +190,20 @@ const Home = ({ history }) => {
 									</div>
 								))}
 							</div>
-						</div>
-									
+						</div> */}
+
+						<Multiselect
+							options={Object.keys(countryData.default)}
+							isObject={false}
+							// singleSelect
+							// options={categoryChoices} // Options to display in the dropdown
+							onSelect={onAddCountry} // Function will trigger on select event
+							onRemove={onRemoveCountry} // Function will trigger on remove event
+							placeholder="Select country:" // Property name to display in the dropdown options
+							selectionLimit={1}
+							style={selectStyle}
+						/>
+
 						<Multiselect
 							options={Object.keys(cityData.default)}
 							isObject={false}
@@ -200,7 +212,7 @@ const Home = ({ history }) => {
 							onSelect={onAddCity} // Function will trigger on select event
 							onRemove={onRemoveCity} // Function will trigger on remove event
 							placeholder="Select city:" // Property name to display in the dropdown options
-							selectionLimit={1}
+							selectionLimit={2}
 							style={selectStyle}
 						/>
 
@@ -211,7 +223,7 @@ const Home = ({ history }) => {
 							onSelect={onAddCategory} // Function will trigger on select event
 							onRemove={onRemoveCategory} // Function will trigger on remove event
 							placeholder="Select topics:" // Property name to display in the dropdown options
-							selectionLimit={7}
+							selectionLimit={1}
 							style={selectStyle}
 						/>
 					</Col>
