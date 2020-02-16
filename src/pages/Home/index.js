@@ -78,6 +78,21 @@ const Home = ({ history }) => {
 		setCategories(categoriesClone);
 	};
 
+	function onAddCity(selectedList, selectedItem) {
+		setCity(selectedItem);
+		console.log(selectedItem);
+		console.log(cityData.default[city]);
+		if (cityData.default[city]) {
+			setCenter({lat: cityData.default[city].lat, lng: cityData.default[city].lng});
+		}
+		
+		console.log(city);
+	}
+
+	const onRemoveCity = (selectedList, removedItem) => {
+		
+	};
+
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
@@ -156,6 +171,18 @@ const Home = ({ history }) => {
 								))}
 							</div>
 						</div>
+									
+						<Multiselect
+							options={Object.keys(cityData.default)}
+							isObject={false}
+							// singleSelect
+							// options={categoryChoices} // Options to display in the dropdown
+							onSelect={onAddCity} // Function will trigger on select event
+							onRemove={onRemoveCity} // Function will trigger on remove event
+							placeholder="Select city:" // Property name to display in the dropdown options
+							selectionLimit={1}
+							style={selectStyle}
+						/>
 
 						<Multiselect
 							options={categoryChoices}
