@@ -13,6 +13,19 @@ const config = {
 	measurementId: 'G-WQNV4C9JMW'
 };
 
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
+
 class Firebase {
 	constructor() {
 		app.initializeApp(config);
@@ -53,10 +66,11 @@ class Firebase {
 	}
 	
 	async getSavedArticlesJSON() {
-		var savedRef = this.database.ref('users/' + this.auth.currentUser.uid);
-		savedRef.on('value', function(snapshot) {
-			console.log('tarang: ' + snapshot.val().saved);
-  			return JSON.stringify(snapshot.val().saved);
+		var savedRef = this.database.ref('users/' + this.auth.currentUser.uid + '/saved');
+		await savedRef.once('value', function(snapshot) {
+			console.log("TEST: " + snapshotToArray(snapshot));
+			console.log("TEST2: " + snapshotToArray(snapshot)[0].title);
+  			return snapshotToArray(snapshot);
 		});
 	}
 
