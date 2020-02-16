@@ -4,6 +4,17 @@ import json
 import urllib
 import os
 import sys
+from firebase import Firebase
+import time
+
+config = {
+  "apiKey": "AIzaSyCBpDzAUiRY8nyiaNadyUIcjLTJxW41dhU",
+  "authDomain": 'recap-treehacks.firebaseapp.com',
+  "databaseURL": 'https://recap-treehacks.firebaseio.com',
+  "storageBucket": 'recap-treehacks.appspot.com'
+}
+
+firebase = Firebase(config)
 
 def translate_json(data_path):
     with open(data_path, 'r') as jsonfile:
@@ -24,6 +35,8 @@ def translate_json(data_path):
     print(data2send)
 
 translate_json('/Users/jungwonsuk/treehacks2020/TreeHacks2020/scraper/sample.json')
+
+
 
 
 #
@@ -69,6 +82,14 @@ def translate(text, src = '', to = 'en'):
         pass
 
     print(translated)
+
+db = firebase.database()
+
+data = {}
+while True:
+  time.sleep(3)
+  data = translate_json(db.child('translate').get())
+  db.child("translate").set(data)
 
 
 # print(translate("В итальянском Антхольце проходит чемпионат мира по биатлону. «Газета.Ru» провела текстовую онлайн-трансляцию мужской гонки преследования на 12,5 км, в которой россиянин Александр Логинов завоевал бронзовую медаль"))
