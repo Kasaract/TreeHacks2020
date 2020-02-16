@@ -1,13 +1,25 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCodeBranch, faShare, faBookmark } from '@fortawesome/free-solid-svg-icons';
-import { faBookmark as unBookmark} from '@fortawesome/free-regular-svg-icons';
+import {
+	faCodeBranch,
+	faShare as unBookmark,
+	faBookmark
+} from '@fortawesome/free-solid-svg-icons';
+// import { faBookmark as unBookmark} from '@fortawesome/free-regular-svg-icons';
 
 import './ArticleCard.scss';
 import filler from './filler_img.jpg';
 
-const ArticleCard = ({ title, author, source, preview, image, link, saved }) => {
+const ArticleCard = ({
+	title,
+	author,
+	source,
+	preview,
+	image,
+	link,
+	saved
+}) => {
 	return (
 		<Card
 			className="my-3 mx-1 cardParent"
@@ -26,10 +38,11 @@ const ArticleCard = ({ title, author, source, preview, image, link, saved }) => 
 				>
 					<div>{`${source} ${author}`} </div>
 					<div className="icons">
-                        {saved ?
-                            <FontAwesomeIcon icon={faBookmark}/> :
-                            <FontAwesomeIcon icon={unBookmark}/>
-                        }
+						{saved ? (
+							<FontAwesomeIcon icon={faBookmark} />
+						) : (
+							<FontAwesomeIcon icon={unBookmark} />
+						)}
 						<FontAwesomeIcon icon={faCodeBranch} />
 					</div>
 				</Card.Subtitle>

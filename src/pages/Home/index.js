@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, NavItem, Row } from 'react-bootstrap';
+import { Nav, NavItem, Row, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
+import { getCenter } from '../../services/map';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 
 import * as articleData from './articles.json';
 import DisplayGoogleMap from './Map';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+
+const listOfCountries = ['UnitedStates', 'Canada', 'Mexico'];
+
+const centerZoom = {
+	Mexico: {
+		lat: 23.634501,
+		lng: -102.552788,
+		zoom: 5
+	},
+	Canada: { lat: 56.130367, lng: -106.346771, zoom: 3 },
+	UnitedStates: { lat: 38, lng: -95.712891, zoom: 4 }
+};
 
 const Home = ({ history }) => {
 	const [articles, setArticles] = useState([]);
-	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
-	const [zoom, setZoom] = useState(12);
+	const [selectedCountries, setSelectedCountries] = useState(['UnitedStates']);
+	const [center, setCenter] = useState({ lat: 38, lng: -95.712891 });
+	const [zoom, setZoom] = useState(4);
 
 	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 
@@ -34,6 +50,27 @@ const Home = ({ history }) => {
 		);
 	});
 
+	const handleDropdownOnClick = countryName => {
+		setSelectedCountries([...selectedCountries, countryName]);
+		var zoom = [];
+		var coords = [];
+
+		selectedCountries.forEach(selectedCountry => {
+			coords.push({
+				lat: centerZoom[selectedCountry].lat,
+				lng: centerZoom[selectedCountry].lng
+			});
+			zoom.push(centerZoom[selectedCountry].zoom);
+			console.log(coords);
+			console.log(zoom);
+		});
+
+		console.log(coords);
+		console.log(zoom);
+		setCenter(getCenter(coords));
+		setZoom(Math.max(zoom));
+	};
+
 	if (!firebase.getCurrentUsername()) {
 		return (
 			<Layout>
@@ -49,32 +86,61 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
+				<div class="dropdown">
+					<button
+						class="btn btn-secondary dropdown-toggle"
+						type="button"
+						id="countryDropdown"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						{
+							listOfCountries.filter(
+								country => !selectedCountries.includes(country)
+							)[0]
+						}
+					</button>
+					{/* <button
+						class="btn btn-secondary dropdown-toggle"
+						type="button"
+						id="dropdownMenuButton"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						Dropdown button
+					</button> */}
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						{listOfCountries
+							.filter(country => !selectedCountries.includes(country))
+							.map(country => (
+								<a
+									class="dropdown-item"
+									href="#"
+									onClick={() => handleDropdownOnClick(country)}
+								>
+									{country}
+								</a>
+							))}
+					</div>
+				</div>
+
 				<Row>
-					<button
-						onClick={() => {
-							setCenter({ lat: 56.130367, lng: -106.346771 });
-							setZoom(3);
-						}}
-					>
-						Canada
-					</button>
-					<button
-						onClick={() => {
-							setCenter({ lat: 23.634501, lng: -102.552788 });
-							setZoom(5);
-						}}
-					>
-						Mexico
-					</button>
-					<button
-						onClick={() => {
-							setCenter({ lat: 38, lng: -95.712891 });
-							setZoom(4);
-						}}
-					>
-						United States
-					</button>
-					<div>{JSON.stringify(center)}</div>
+					{selectedCountries.map(selectedCountry => (
+						<span className="btn btn-primary">
+							{selectedCountry}
+							{` `}
+							<FontAwesomeIcon
+								icon={faMinus}
+								onClick={() => [
+									...selectedCountries.filter(
+										country => country === selectedCountry
+									)
+								]}
+							/>
+						</span>
+					))}
 				</Row>
 				<Row className="d-flex justify-content-center my-3">
 					<DisplayGoogleMap center={center} zoom={zoom} />
@@ -89,11 +155,8 @@ const Home = ({ history }) => {
 	return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
-				<Link to="/saved">
-					<NavItem className="my-3 mx-3">Saved Articles</NavItem>
-				</Link>
 				<a href="#">
-					<NavItem className="my-3 ml-3 mr-5" onClick={() => onSignOut()}>
+					<NavItem className="my-3 mx-3" onClick={() => onSignOut()}>
 						Log out
 					</NavItem>
 				</a>
