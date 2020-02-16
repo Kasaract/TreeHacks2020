@@ -6,7 +6,11 @@ import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 import * as articleData from './articles.json';
+import newsapi from '../../services/newsapi';
+
 import DisplayGoogleMap from './Map';
+
+// let articleData = newsapi.getJSON('Austin');
 
 const centerZoom = {
 	Default: {
@@ -117,6 +121,7 @@ const Home = ({ history }) => {
 		);
 	}
 
+	firebase.addNewUserToDB();
 	return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
