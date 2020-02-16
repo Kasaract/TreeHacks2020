@@ -18,19 +18,23 @@ function Notifications({ history }) {
 			onSubmit={onSubmit}
 			render={({ errors, isSubmitting, touched, values }) => (
 				<Form className="form-validate" autoComplete="off">
-					<Field as="select" name="homeView" placeholder="Europe">
-						{listOfNotifications.map(notifOption => (
-							<option value={notifOption}>{notifOption}</option>
-						))}
-					</Field>
-
-					<button
-						className="btn btn-lg btn-primary"
-						type="submit"
-						disabled={isSubmitting}
-					>
-						Save Changes
-					</button>
+					<div className = "my-3">
+						<Field as="select" name="homeView" placeholder="Europe">
+							{listOfNotifications.map(notifOption => (
+								<option value={notifOption}>{notifOption}</option>
+							))}
+						</Field>
+					</div>
+					
+					<div className = "my-3">
+						<button
+							className="btn btn-lg btn-primary"
+							type="submit"
+							disabled={isSubmitting}
+						>
+							Save Changes
+						</button>
+					</div>
 				</Form>
 			)}
 		/>

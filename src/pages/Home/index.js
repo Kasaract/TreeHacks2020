@@ -156,11 +156,11 @@ const Home = ({ history }) => {
 						<NavItem className="my-1 mx-3">Register</NavItem>
 					</Link>
 					<Link to="/login">
-						<NavItem className="my-1 ml-3 mr-5">Login</NavItem>
+						<NavItem className="my-1 ml-3">Login</NavItem>
 					</Link>
-					{/* <Link to="/settings">
-						<NavItem className="my-1 ml-3 mr-5">Settings</NavItem>
-					</Link> */}
+					<Link to="/settings">
+						<NavItem className="my-1 ml-5 mr-5">Settings</NavItem>
+					</Link>
 				</Nav>
 				<Row className="mr-3 ml-3">
 					<Col sm={1} style={{ padding: '0' }}>
