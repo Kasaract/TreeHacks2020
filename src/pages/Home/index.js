@@ -118,7 +118,6 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<Row className="mr-3 ml-3">
-					{JSON.stringify(categories)}
 					<Col sm={4}>
 						<Row>
 							<div className="dropdown ml-2">
@@ -166,28 +165,28 @@ const Home = ({ history }) => {
 						</Row>
 					</Col>
 
-					{/* <Row className="d-flex justify-content-center my-3"> */}
-					{/* <DisplayGoogleMap
-						center={center}
-						zoom={zoom}
-						articlesLength={articles.length}
-					/> */}
+					{/* <Row className="d-flex justify-content-center my-3">
+						<DisplayGoogleMap
+							center={center}
+							zoom={zoom}
+							articlesLength={articles.length}
+						/>
+					</Row> */}
 
 					<Col sm={6}>
-						{/* <DisplayGoogleMap
+						<DisplayGoogleMap
 							center={center}
 							zoom={zoom}
 							articles={articles}
 							selectedArticle={selectedArticle}
 							onChangeSelectedArticle={setSelectArticle}
-						/> */}
+						/>
 					</Col>
 				</Row>
-				{/* <Row className="d-flex justify-content-center my-3">
-				</Row> */}
-				{/* <Row className="d-flex flex-wrap justify-content-around px-3">
+				<Row className="d-flex justify-content-center my-3"></Row>
+				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
-				</Row> */}
+				</Row>
 			</Layout>
 		);
 	}
