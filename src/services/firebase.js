@@ -60,6 +60,20 @@ class Firebase {
 		});
 	}
 
+	async pushSelectedArticleJSON(title, author, source, preview, image, link, publishedAt) {
+		let saved = this.database.ref('users/' + this.auth.currentuser.uid).child("saved");
+		var article = saved.push();
+		article.set ({
+			title: title,
+			author: author,
+			source: source,
+			preview: preview,
+			urlToImage: image,
+			url: link,
+			publishedAt: publishedAt
+		});
+	}
+
 	isInitialized() {
 		return new Promise(resolve => {
 			this.auth.onAuthStateChanged(resolve);
