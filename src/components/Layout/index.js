@@ -4,7 +4,9 @@ import React from 'react';
 const Layout = ({ children }) => {
 	return (
 		<>
-			<div className="w-100 h-100 layout">{children}</div>
+			<div className="w-100 h-100 layout" style={{ overflowX: 'hidden' }}>
+				{children}
+			</div>
 		</>
 	);
 };
