@@ -14,6 +14,8 @@ import DisplayGoogleMap from './Map';
 
 // let articleData = newsapi.getJSON('Austin');
 
+console.log(cityData);
+
 console.log(cityData.default);
 
 const centerZoom = cityData.default;
