@@ -50,8 +50,8 @@ const Map = ({
 	var positions = [];
 	for (var i = 0; i < articles.length; i++) {
 		positions.push({
-			lat: center.lat + Math.random() * getRandomSign(),
-			lng: center.lng + Math.random() * getRandomSign()
+			lat: center.lat + 0.8 * Math.random() * getRandomSign(),
+			lng: center.lng + 0.8 * Math.random() * getRandomSign()
 		});
 	}
 
