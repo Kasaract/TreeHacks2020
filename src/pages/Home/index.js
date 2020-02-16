@@ -7,6 +7,7 @@ import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 import * as articleData from './articles.json';
 import newsapi from '../../services/newsapi';
+import { Multiselect } from 'multiselect-react-dropdown';
 
 import DisplayGoogleMap from './Map';
 
@@ -41,12 +42,49 @@ const Home = ({ history }) => {
 	const [city, setCity] = useState('');
 	const [center, setCenter] = useState({ lat: 38, lng: -95.712891 });
 	const [zoom, setZoom] = useState(4);
+	const [categories, setCategories] = useState([]);
+
+	// const categoryChoices = [
+	// 	{name: "business", id: 1},
+	// 	{name: "entertainment", id: 2},
+	// 	{name: "general", id: 3},
+	// 	{name: "health", id: 4},
+	// 	{name: "science", id: 5},
+	// 	{name: "sports", id: 6},
+	// 	{name: "technology", id: 7}
+	// ];
+	const categoryChoices = ["business", "entertainment", "general", "health", "science", "sports", "technology"];
 
 	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
+
+	const onAddCategory = (selectedList, selectedItem) => {
+		console.log(selectedItem);
+		console.log(categories);
+		var categoriesClone = [...categories];
+		console.log(categoriesClone);
+		categoriesClone.push(selectedItem);
+		setCategories(categoriesClone);
+		console.log(categories);
+	};
+
+	const onRemoveCategory = (selectedList, removedItem) => {
+		var categoriesClone = [...categories];
+		const index = categoriesClone.indexOf(removedItem);
+		categoriesClone.splice(index, 1);
+		setCategories(categoriesClone);
+		console.log(categories);
+	};
 
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
+
+	const selectStyle = {
+		multiselectContainer:{
+			margin: 'auto',
+			width: '300px'
+		}
+	}
 
 	const displayArticles = articles.map(article => {
 		return (
@@ -106,6 +144,18 @@ const Home = ({ history }) => {
 							))}
 						</div>
 					</div>
+				</Row>
+				<Row>
+				<Multiselect
+					options={categoryChoices}
+					isObject={false}
+					// options={categoryChoices} // Options to display in the dropdown
+					onSelect={onAddCategory} // Function will trigger on select event
+					onRemove={onRemoveCategory} // Function will trigger on remove event
+					displayValue="select article topics:" // Property name to display in the dropdown options
+					selectionLimit = {7}
+					style={ selectStyle}
+					/>
 				</Row>
 				<Row className="d-flex justify-content-center my-3">
 					<DisplayGoogleMap
