@@ -152,6 +152,7 @@ const Home = ({ history }) => {
 		);
 	}
 
+	firebase.addNewUserToDB();
 	return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
