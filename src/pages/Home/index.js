@@ -53,7 +53,7 @@ const Home = ({ history }) => {
 					<button
 						onClick={() => {
 							setCenter({ lat: 56.130367, lng: -106.346771 });
-							setZoom(4);
+							setZoom(3);
 						}}
 					>
 						Canada
@@ -65,6 +65,14 @@ const Home = ({ history }) => {
 						}}
 					>
 						Mexico
+					</button>
+					<button
+						onClick={() => {
+							setCenter({ lat: 38, lng: -95.712891 });
+							setZoom(4);
+						}}
+					>
+						United States
 					</button>
 					<div>{JSON.stringify(center)}</div>
 				</Row>
