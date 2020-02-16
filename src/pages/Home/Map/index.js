@@ -39,9 +39,10 @@ const Map = ({
 			center={center}
 			zoom={zoom}
 		>
-			{articles.map(article => (
-				<Marker key={article.publishedAt} position={center} />
-			))}
+			{!!articles &&
+				articles.map(article => (
+					<Marker key={article.publishedAt} position={center} />
+				))}
 
 			{!!selectedArticle && (
 				<InfoWindow
@@ -50,11 +51,6 @@ const Map = ({
 					}}
 					position={center}
 				>
-					{/* <Card>
-				<h2>{selectedArticle.title}</h2>
-				<p>{selectedArticle.description}</p>
-			</Card> */}
-
 					<Card
 						className="my-3 mx-1"
 						style={{ width: '10rem', overflow: 'hidden', borderRadius: '1rem' }}
