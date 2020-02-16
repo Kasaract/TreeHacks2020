@@ -3,16 +3,18 @@ import { Nav, NavItem, Row, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
+import newsapi from '../../services/newsapi';
 import { getCenter } from '../../services/map';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 
-import * as articleData from './articles.json';
+// import * as articleData from './articles.json'; Remove Eventually
 import DisplayGoogleMap from './Map';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const listOfCountries = ['UnitedStates', 'Canada', 'Mexico'];
+let articleData = newsapi.getJSON('Austin');
 
 const centerZoom = {
 	Mexico: {
