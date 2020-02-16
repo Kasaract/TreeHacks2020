@@ -25,7 +25,7 @@ var keys = [];
 for (var k in centerZoom) keys.push(k);
 
 var countryKeys = [];
-for (var k in countryKeys) countryKeys.push(k);
+for (var j in countryCenterZoom) countryKeys.push(j);
 
 const Home = ({ history }) => {
 	const [selectedArticle, setSelectArticle] = useState();
@@ -34,19 +34,19 @@ const Home = ({ history }) => {
 	const [country, setCountry] = useState('United States');
 	const [center, setCenter] = useState({ lat: 37.09024, lng: -95.712891 });
 	const [zoom, setZoom] = useState(4);
-	const [categories, setCategories] = useState([]);
+	const [categories, setCategories] = useState('');
 
 	const categoryChoices = [
-		'business',
-		'entertainment',
-		'general',
-		'health',
-		'science',
-		'sports',
-		'technology'
+		'Business',
+		'Entertainment',
+		'General',
+		'Health',
+		'Science',
+		'Sports',
+		'Technology'
 	];
 
-	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
+	// useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 	useEffect(() => {
 		console.log(
 			`${countryUrl}country=${countryCenterZoom[country].abbrv}&sortBy=popularity${API_KEY}`
@@ -82,52 +82,45 @@ const Home = ({ history }) => {
 					setArticles(res.data.articles);
 				})
 				.catch(err => console.log(err));
-		} else if (city.length > 0 && country === 'United States') {
-			axios
-				.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
-				.then(res => {
-					setArticles(res.data.articles);
-				})
-				.catch(err => console.log(err));
 		}
 	}, [categories]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	function onAddCategory(selectedList, selectedItem) {
-		setCategories([...categories, selectedItem]);
-	}
+	// function onAddCategory(selectedList, selectedItem) {
+	// 	setCategories([...categories, selectedItem]);
+	// }
 
-	const onRemoveCategory = (selectedList, removedItem) => {
-		var categoriesClone = [...categories];
-		const index = categoriesClone.indexOf(removedItem);
-		categoriesClone.splice(index, 1);
-		setCategories(categoriesClone);
-	};
+	// const onRemoveCategory = (selectedList, removedItem) => {
+	// 	var categoriesClone = [...categories];
+	// 	const index = categoriesClone.indexOf(removedItem);
+	// 	categoriesClone.splice(index, 1);
+	// 	setCategories(categoriesClone);
+	// };
 
-	function onAddCity(selectedList, selectedItem) {
-		setCity(selectedItem);
-		if (cityData.default[city]) {
-			setCenter({
-				lat: cityData.default[city].lat,
-				lng: cityData.default[city].lng
-			});
-			setZoom(cityData.default[city].zoom);
-		}
-	}
+	// function onAddCity(selectedList, selectedItem) {
+	// 	setCity(selectedItem);
+	// 	if (cityData.default[city]) {
+	// 		setCenter({
+	// 			lat: cityData.default[city].lat,
+	// 			lng: cityData.default[city].lng
+	// 		});
+	// 		setZoom(cityData.default[city].zoom);
+	// 	}
+	// }
 
-	const onRemoveCity = (selectedList, removedItem) => {};
+	// const onRemoveCity = (selectedList, removedItem) => {};
 
-	function onAddCountry(selectedList, selectedItem) {
-		setCountry(selectedItem);
-		if (countryData.default[country]) {
-			setCenter({
-				lat: countryData.default[country].lat,
-				lng: countryData.default[country].lng
-			});
-			setZoom(countryData.default[country].zoom);
-		}
-	}
+	// function onAddCountry(selectedList, selectedItem) {
+	// 	setCountry(selectedItem);
+	// 	if (countryData.default[country]) {
+	// 		setCenter({
+	// 			lat: countryData.default[country].lat,
+	// 			lng: countryData.default[country].lng
+	// 		});
+	// 		setZoom(countryData.default[country].zoom);
+	// 	}
+	// }
 
-	const onRemoveCountry = (selectedList, removedItem) => {};
+	// const onRemoveCountry = (selectedList, removedItem) => {};
 
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
@@ -159,13 +152,22 @@ const Home = ({ history }) => {
 		);
 	});
 
-	const newLocation = city => {
+	const newCityLocation = city => {
 		setCity(city);
 		setCenter({
 			lat: centerZoom[city].lat,
 			lng: centerZoom[city].lng
 		});
 		setZoom(centerZoom[city].zoom);
+	};
+	const newCountryLocation = country => {
+		setCountry(country);
+		setCity('');
+		setCenter({
+			lat: countryCenterZoom[country].lat,
+			lng: countryCenterZoom[country].lng
+		});
+		setZoom(countryCenterZoom[country].zoom);
 	};
 
 	if (!firebase.getCurrentUsername()) {
@@ -184,7 +186,8 @@ const Home = ({ history }) => {
 				</Nav>
 				<Row className="mr-3 ml-3">
 					<Col sm={1} style={{ padding: '0' }}>
-						{/* <div className="dropdown ml-2">
+						{/* Country */}
+						<div className="dropdown ml-2 my-2">
 							<button
 								className="btn-sm btn-secondary dropdown-toggle"
 								type="button"
@@ -193,59 +196,87 @@ const Home = ({ history }) => {
 								aria-haspopup="true"
 								aria-expanded="false"
 							>
-								{city}
+								{country}
 							</button>
 							<div
 								className="dropdown-menu"
 								style={{ minWidth: '7rem' }}
 								aria-labelledby="dropdownMenuButton"
 							>
-								{keys.map(city => (
+								{console.log(JSON.stringify(countryKeys))}
+								{countryKeys.map(country => (
 									<div
-										key={city}
+										key={country}
 										className="dropdown-item pl-2"
-										onClick={() => newLocation(city)}
+										onClick={() => newCountryLocation(country)}
 									>
-										{city}
+										{country}
 									</div>
 								))}
 							</div>
-						</div> */}
+						</div>
 
-						<Multiselect
-							options={Object.keys(countryData.default)}
-							isObject={false}
-							// singleSelect
-							// options={categoryChoices} // Options to display in the dropdown
-							onSelect={onAddCountry} // Function will trigger on select event
-							onRemove={onRemoveCountry} // Function will trigger on remove event
-							placeholder="Select country:" // Property name to display in the dropdown options
-							selectionLimit={1}
-							style={selectStyle}
-						/>
+						{/* City */}
+						{country === 'United States' && (
+							<div className="dropdown ml-2 my-2">
+								<button
+									className="btn-sm btn-secondary dropdown-toggle"
+									type="button"
+									id="dropdownMenuButton"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									{city.length > 0 ? city : 'Select city:'}
+								</button>
+								<div
+									className="dropdown-menu"
+									style={{ minWidth: '7rem' }}
+									aria-labelledby="dropdownMenuButton"
+								>
+									{keys.map(city => (
+										<div
+											key={city}
+											className="dropdown-item pl-2"
+											onClick={() => newCityLocation(city)}
+										>
+											{city}
+										</div>
+									))}
+								</div>
+							</div>
+						)}
 
-						<Multiselect
-							options={Object.keys(cityData.default)}
-							isObject={false}
-							// singleSelect
-							// options={categoryChoices} // Options to display in the dropdown
-							onSelect={onAddCity} // Function will trigger on select event
-							onRemove={onRemoveCity} // Function will trigger on remove event
-							placeholder="Select city:" // Property name to display in the dropdown options
-							selectionLimit={2}
-							style={selectStyle}
-						/>
-
-						<Multiselect
-							options={categoryChoices}
-							isObject={false}
-							// options={categoryChoices} // Options to display in the dropdown
-							onSelect={onAddCategory} // Function will trigger on select event
-							onRemove={onRemoveCategory} // Function will trigger on remove event
-							placeholder="Select topics:" // Property name to display in the dropdown options
-							selectionLimit={1}
-							style={selectStyle}
-						/>
+						{/* Category */}
+						{city.length > 1 && (
+							<div className="dropdown ml-2 my-2">
+								<button
+									className="btn-sm btn-secondary dropdown-toggle"
+									type="button"
+									id="dropdownMenuButton"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									{categories.length > 0 ? categories : 'Select category:'}
+								</button>
+								<div
+									className="dropdown-menu"
+									style={{ minWidth: '7rem' }}
+									aria-labelledby="dropdownMenuButton"
+								>
+									{categoryChoices.map(category => (
+										<div
+											key={category}
+											className="dropdown-item pl-2"
+											onClick={() => setCategories(category)}
+										>
+											{category}
+										</div>
+									))}
+								</div>
+							</div>
+						)}
 					</Col>
 
 					<Col sm={10} style={{ padding: '0', marginLeft: '1rem' }}>
