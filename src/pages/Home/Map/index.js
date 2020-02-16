@@ -41,7 +41,7 @@ const Map = ({
 		>
 			{!!articles &&
 				articles.map(article => (
-					<Marker key={article.publishedAt} position={center} />
+					<Marker key={article.title} position={center} />
 				))}
 
 			{!!selectedArticle && (

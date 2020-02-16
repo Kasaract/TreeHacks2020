@@ -17,8 +17,9 @@ import axios from 'axios';
 // let articleData = newsapi.getJSON('Austin');
 const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
 const url = 'https://newsapi.org/v2/everything?';
+const countryUrl = 'https://newsapi.org/v2/top-headlines?';
 const centerZoom = cityData.default;
-const countryCenterZoom = cityData.default;
+const countryCenterZoom = countryData.default;
 
 var keys = [];
 for (var k in centerZoom) keys.push(k);
@@ -29,10 +30,10 @@ for (var k in countryKeys) countryKeys.push(k);
 const Home = ({ history }) => {
 	const [selectedArticle, setSelectArticle] = useState();
 	const [articles, setArticles] = useState([]);
-	const [city, setCity] = useState('New York City');
+	const [city, setCity] = useState('');
 	const [country, setCountry] = useState('United States');
-	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
-	const [zoom, setZoom] = useState(9);
+	const [center, setCenter] = useState({ lat: 37.09024, lng: -95.712891 });
+	const [zoom, setZoom] = useState(4);
 	const [categories, setCategories] = useState([]);
 
 	const categoryChoices = [
@@ -47,22 +48,41 @@ const Home = ({ history }) => {
 
 	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 	useEffect(() => {
+		console.log(
+			`${countryUrl}country=${countryCenterZoom[country].abbrv}&sortBy=popularity${API_KEY}`
+		);
 		axios
-			.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
+			.get(
+				`${countryUrl}country=${countryCenterZoom[country].abbrv}&sortBy=popularity${API_KEY}`
+			)
 			.then(res => {
 				setArticles(res.data.articles);
 			})
 			.catch(err => console.log(err));
-	}, [city]);
+	}, [country]);
 	useEffect(() => {
-		if (categories.length > 0) {
+		if (country === 'United States' && city.length > 0) {
+			axios
+				.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
+				.then(res => {
+					setArticles(res.data.articles);
+				})
+				.catch(err => console.log(err));
+		}
+	}, [city, country]);
+	useEffect(() => {
+		if (
+			categories.length > 0 &&
+			city.length > 0 &&
+			country === 'United States'
+		) {
 			axios
 				.get(`${url}q=${city}+${categories[0]}&sortBy=popularity${API_KEY}`)
 				.then(res => {
 					setArticles(res.data.articles);
 				})
 				.catch(err => console.log(err));
-		} else {
+		} else if (city.length > 0 && country === 'United States') {
 			axios
 				.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
 				.then(res => {
@@ -127,7 +147,7 @@ const Home = ({ history }) => {
 	const displayArticles = articles.map(article => {
 		return (
 			<ArticleCard
-				key={article.publishedAt}
+				key={article.title}
 				title={article.title}
 				author={article.author}
 				source={article.source.name}
