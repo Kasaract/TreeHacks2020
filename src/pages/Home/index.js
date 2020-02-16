@@ -6,6 +6,7 @@ import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 import * as articleData from './articles.json';
+import * as cityData from './cities.json';
 import newsapi from '../../services/newsapi';
 import { Multiselect } from 'multiselect-react-dropdown';
 
@@ -17,18 +18,22 @@ const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
 
 const url = 'https://newsapi.org/v2/everything?';
 
-const centerZoom = {
-	'New York City': {
-		lat: 40.712776,
-		lng: -74.005974,
-		zoom: 9
-	},
-	'Los Angeles': {
-		lat: 34.052235,
-		lng: -118.243683,
-		zoom: 9
-	}
-};
+// const centerZoom = {
+// 	'New York City': {
+// 		lat: 40.712776,
+// 		lng: -74.005974,
+// 		zoom: 9
+// 	},
+// 	'Los Angeles': {
+// 		lat: 34.052235,
+// 		lng: -118.243683,
+// 		zoom: 9
+// 	}
+// // };
+// console.log(cityData);
+// console.log(cityData.default);
+
+const centerZoom = cityData.default;
 
 var keys = [];
 for (var k in centerZoom) keys.push(k);
@@ -71,8 +76,6 @@ const Home = ({ history }) => {
 		const index = categoriesClone.indexOf(removedItem);
 		categoriesClone.splice(index, 1);
 		setCategories(categoriesClone);
-
-		console.log(categories);
 	};
 
 	const onSignOut = () => {
@@ -102,8 +105,6 @@ const Home = ({ history }) => {
 	});
 
 	const newLocation = city => {
-		console.log(city);
-		console.log(centerZoom[city].lat);
 		setCity(city);
 		setCenter({
 			lat: centerZoom[city].lat,
@@ -147,7 +148,7 @@ const Home = ({ history }) => {
 								{keys.map(city => (
 									<div
 										key={city}
-										className="dropdown-item p-0"
+										className="dropdown-item pl-2"
 										onClick={() => newLocation(city)}
 									>
 										{city}
