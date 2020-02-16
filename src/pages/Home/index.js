@@ -6,6 +6,7 @@ import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 import * as articleData from './articles.json';
+import * as cityData from './cities.json';
 import newsapi from '../../services/newsapi';
 import { Multiselect } from 'multiselect-react-dropdown';
 
@@ -13,24 +14,9 @@ import DisplayGoogleMap from './Map';
 
 // let articleData = newsapi.getJSON('Austin');
 
-const centerZoom = {
-	Default: {
-		displayName: 'Default',
-		lat: 38,
-		lng: -95.712891,
-		zoom: 4
-	},
-	'New York City': {
-		lat: 40.712776,
-		lng: -74.005974,
-		zoom: 10
-	},
-	'Los Angeles': {
-		lat: 34.052235,
-		lng: -118.243683,
-		zoom: 10
-	}
-};
+console.log(cityData.default);
+
+const centerZoom = cityData.default;
 
 var keys = [];
 for (var k in centerZoom) keys.push(k);
