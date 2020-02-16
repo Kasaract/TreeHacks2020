@@ -3,8 +3,8 @@
  * Call the functions in here to use NewsAPI
  */
 
-const API_KEY = '&key=AIzaSyAg3ugG7gGUMmRz09iKdgUOWHzjKusyu-I';
-const GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
+const GEOCODE_URL = 'https://newsapi.org/v2/everything?q=';
  
 
 class NewsAPI {
@@ -18,12 +18,8 @@ class NewsAPI {
         return Httpreq.responseText;          
     }
 
-    cityLatitude(city) {
-        let json = JSON.parse(this.Get(GEOCODE_URL+city+API_KEY));
-        return json.results[0].geometry.location.lat;
-    }
-
-    cityLongitude(city) {
+    getJSON(city) {
+        let formattedCity = city.replace(/ /, "+");
         let json = JSON.parse(this.Get(GEOCODE_URL + city + API_KEY));
         return json.results[0].geometry.location.lng;
     }
