@@ -13,6 +13,19 @@ const config = {
 	measurementId: 'G-WQNV4C9JMW'
 };
 
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
+
 class Firebase {
 	constructor() {
 		app.initializeApp(config);
@@ -50,6 +63,30 @@ class Firebase {
 		newUser.child('uid').set(this.auth.currentUser.uid);
 		
 		return null;
+	}
+	
+	async getSavedArticlesJSON() {
+		var savedRef = this.database.ref('users/' + this.auth.currentUser.uid + '/saved');
+		await savedRef.once('value', function(snapshot) {
+			console.log("TEST: " + snapshotToArray(snapshot));
+			console.log("TEST2: " + snapshotToArray(snapshot)[0].title);
+  			return snapshotToArray(snapshot);
+		});
+	}
+
+	async pushSelectedArticleJSON(title, author, source, preview, image, link, publishedAt) {
+		console.log("something shouldve happened")
+		let saved = this.database.ref('users/' + this.auth.currentUser.uid).child("saved");
+		var article = saved.push();
+		article.set ({
+			title: title,
+			author: author,
+			source: source,
+			preview: preview,
+			urlToImage: image,
+			url: link,
+			publishedAt: publishedAt
+		});
 	}
 
 	isInitialized() {
