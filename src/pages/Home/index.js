@@ -59,13 +59,29 @@ const Home = ({ history }) => {
 	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
 	useEffect(() => {
 		axios
-			.get(`${url}q=${city}${API_KEY}`)
+			.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
 			.then(res => {
-				// console.log(res.data.articles);
 				setArticles(res.data.articles);
 			})
 			.catch(err => console.log(err));
 	}, [city]);
+	useEffect(() => {
+		if (categories.length > 0) {
+			axios
+				.get(`${url}q=${city}+${categories[0]}&sortBy=popularity${API_KEY}`)
+				.then(res => {
+					setArticles(res.data.articles);
+				})
+				.catch(err => console.log(err));
+		} else {
+			axios
+				.get(`${url}q=${city}&sortBy=popularity${API_KEY}`)
+				.then(res => {
+					setArticles(res.data.articles);
+				})
+				.catch(err => console.log(err));
+		}
+	}, [categories]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function onAddCategory(selectedList, selectedItem) {
 		setCategories([...categories, selectedItem]);
@@ -85,7 +101,11 @@ const Home = ({ history }) => {
 	const selectStyle = {
 		multiselectContainer: {
 			margin: 'auto',
-			width: '150px'
+			width: '7rem'
+		},
+		option: {
+			padding: '3px 2px',
+			fontSize: '0.9rem'
 		}
 	};
 
@@ -115,7 +135,7 @@ const Home = ({ history }) => {
 
 	if (!firebase.getCurrentUsername()) {
 		return (
-			<Layout className="mr-3">
+			<Layout>
 				<Nav className="d-flex justify-content-end">
 					<Link to="/register">
 						<NavItem className="my-1 mx-3">Register</NavItem>
@@ -128,7 +148,7 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<Row className="mr-3 ml-3">
-					<Col sm={2}>
+					<Col sm={1} style={{ padding: '0' }}>
 						<div className="dropdown ml-2">
 							<button
 								className="btn-sm btn-secondary dropdown-toggle"
@@ -163,21 +183,13 @@ const Home = ({ history }) => {
 							// options={categoryChoices} // Options to display in the dropdown
 							onSelect={onAddCategory} // Function will trigger on select event
 							onRemove={onRemoveCategory} // Function will trigger on remove event
-							placeholder="Select article topics:" // Property name to display in the dropdown options
+							placeholder="Select topics:" // Property name to display in the dropdown options
 							selectionLimit={7}
 							style={selectStyle}
 						/>
 					</Col>
 
-					{/* <Row className="d-flex justify-content-center my-3">
-						<DisplayGoogleMap
-							center={center}
-							zoom={zoom}
-							articlesLength={articles.length}
-						/>
-					</Row> */}
-
-					<Col sm={10}>
+					<Col sm={10} style={{ padding: '0', marginLeft: '1rem' }}>
 						<DisplayGoogleMap
 							center={center}
 							zoom={zoom}
@@ -187,8 +199,10 @@ const Home = ({ history }) => {
 						/>
 					</Col>
 				</Row>
-				<Row className="d-flex justify-content-center my-3"></Row>
-				<Row className="d-flex flex-wrap justify-content-around px-3">
+				<Row
+					className="d-flex flex-wrap justify-content-around px-3"
+					style={{ height: '45vh', overflow: 'auto' }}
+				>
 					{displayArticles}
 				</Row>
 			</Layout>

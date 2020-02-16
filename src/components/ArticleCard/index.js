@@ -23,7 +23,7 @@ const ArticleCard = ({
 }) => {
 	return (
 		<Card
-			className="my-3 mx-1 cardParent"
+			className="mt-1 mb-3 mx-1 cardParent"
 			style={{ width: '12rem', overflow: 'hidden', borderRadius: '1rem' }}
 			onClick={() => onClick()}
 		>
