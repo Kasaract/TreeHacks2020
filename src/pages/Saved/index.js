@@ -6,13 +6,17 @@ import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 
-import * as savedArticles from './savedarticles.json';
+// import * as savedArticles from './savedarticles.json';
 import DisplayGoogleMap from '../Home/Map';
+
 
 const Saved = ({ history }) => {
 	const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
+	// if (firebase.getCurrentUsername) {
+		let savedArticles = firebase.getSavedArticlesJSON();
+	// }
 
 	const displayArticles = savedArticles.articles.map(article => {
 		return (

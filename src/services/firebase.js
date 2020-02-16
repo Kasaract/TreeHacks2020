@@ -51,6 +51,14 @@ class Firebase {
 		
 		return null;
 	}
+	
+	async getSavedArticlesJSON() {
+		var savedRef = this.database.ref('users/' + this.auth.currentUser.uid);
+		savedRef.on('value', function(snapshot) {
+			console.log('tarang: ' + snapshot.val().saved);
+  			return JSON.stringify(snapshot.val().saved);
+		});
+	}
 
 	isInitialized() {
 		return new Promise(resolve => {
