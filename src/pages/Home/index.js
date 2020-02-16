@@ -10,25 +10,23 @@ import newsapi from '../../services/newsapi';
 import { Multiselect } from 'multiselect-react-dropdown';
 
 import DisplayGoogleMap from './Map';
+import axios from 'axios';
 
 // let articleData = newsapi.getJSON('Austin');
+const API_KEY = '&apiKey=7c4715d11f804f72a35100812d5e0c38';
+
+const url = 'https://newsapi.org/v2/everything?';
 
 const centerZoom = {
-	Default: {
-		displayName: 'Default',
-		lat: 38,
-		lng: -95.712891,
-		zoom: 4
-	},
 	'New York City': {
 		lat: 40.712776,
 		lng: -74.005974,
-		zoom: 10
+		zoom: 9
 	},
 	'Los Angeles': {
 		lat: 34.052235,
 		lng: -118.243683,
-		zoom: 10
+		zoom: 9
 	}
 };
 
@@ -38,9 +36,9 @@ for (var k in centerZoom) keys.push(k);
 const Home = ({ history }) => {
 	const [selectedArticle, setSelectArticle] = useState();
 	const [articles, setArticles] = useState([]);
-	const [city, setCity] = useState('');
-	const [center, setCenter] = useState({ lat: 38, lng: -95.712891 });
-	const [zoom, setZoom] = useState(4);
+	const [city, setCity] = useState('New York City');
+	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
+	const [zoom, setZoom] = useState(10);
 	const [categories, setCategories] = useState([]);
 
 	const categoryChoices = [
@@ -54,6 +52,15 @@ const Home = ({ history }) => {
 	];
 
 	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
+	useEffect(() => {
+		axios
+			.get(`${url}q=${city}${API_KEY}`)
+			.then(res => {
+				// console.log(res.data.articles);
+				setArticles(res.data.articles);
+			})
+			.catch(err => console.log(err));
+	}, [city]);
 
 	function onAddCategory(selectedList, selectedItem) {
 		setCategories([...categories, selectedItem]);
@@ -75,7 +82,7 @@ const Home = ({ history }) => {
 	const selectStyle = {
 		multiselectContainer: {
 			margin: 'auto',
-			width: '300px'
+			width: '150px'
 		}
 	};
 
@@ -95,12 +102,14 @@ const Home = ({ history }) => {
 	});
 
 	const newLocation = city => {
+		console.log(city);
+		console.log(centerZoom[city].lat);
 		setCity(city);
 		setCenter({
-			lat: centerZoom[city.replace(/ /g, '+')].lat,
-			lng: centerZoom[city.replace(/ /g, '+')].lng
+			lat: centerZoom[city].lat,
+			lng: centerZoom[city].lng
 		});
-		setZoom(centerZoom[city.replace(/ /g, '+')].zoom);
+		setZoom(centerZoom[city].zoom);
 	};
 
 	if (!firebase.getCurrentUsername()) {
@@ -118,51 +127,45 @@ const Home = ({ history }) => {
 					</Link>
 				</Nav>
 				<Row className="mr-3 ml-3">
-					<Col sm={4}>
-						<Row>
-							<div className="dropdown ml-2">
-								<button
-									className="btn-sm btn-secondary dropdown-toggle"
-									type="button"
-									id="dropdownMenuButton"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
-									{city.length > 0
-										? centerZoom[city].displayName
-										: 'Select a city'}
-								</button>
-								<div
-									className="dropdown-menu"
-									style={{ minWidth: '7rem' }}
-									aria-labelledby="dropdownMenuButton"
-								>
-									{keys.map(city => (
-										<div
-											key={city}
-											className="dropdown-item p-0"
-											onClick={() => newLocation(city)}
-										>
-											{centerZoom[city].displayName}
-										</div>
-									))}
-								</div>
+					<Col sm={2}>
+						<div className="dropdown ml-2">
+							<button
+								className="btn-sm btn-secondary dropdown-toggle"
+								type="button"
+								id="dropdownMenuButton"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								{city}
+							</button>
+							<div
+								className="dropdown-menu"
+								style={{ minWidth: '7rem' }}
+								aria-labelledby="dropdownMenuButton"
+							>
+								{keys.map(city => (
+									<div
+										key={city}
+										className="dropdown-item p-0"
+										onClick={() => newLocation(city)}
+									>
+										{city}
+									</div>
+								))}
 							</div>
-						</Row>
+						</div>
 
-						<Row>
-							<Multiselect
-								options={categoryChoices}
-								isObject={false}
-								// options={categoryChoices} // Options to display in the dropdown
-								onSelect={onAddCategory} // Function will trigger on select event
-								onRemove={onRemoveCategory} // Function will trigger on remove event
-								placeholder="select article topics:" // Property name to display in the dropdown options
-								selectionLimit={7}
-								style={selectStyle}
-							/>
-						</Row>
+						<Multiselect
+							options={categoryChoices}
+							isObject={false}
+							// options={categoryChoices} // Options to display in the dropdown
+							onSelect={onAddCategory} // Function will trigger on select event
+							onRemove={onRemoveCategory} // Function will trigger on remove event
+							placeholder="Select article topics:" // Property name to display in the dropdown options
+							selectionLimit={7}
+							style={selectStyle}
+						/>
 					</Col>
 
 					{/* <Row className="d-flex justify-content-center my-3">
@@ -173,7 +176,7 @@ const Home = ({ history }) => {
 						/>
 					</Row> */}
 
-					<Col sm={6}>
+					<Col sm={10}>
 						<DisplayGoogleMap
 							center={center}
 							zoom={zoom}
