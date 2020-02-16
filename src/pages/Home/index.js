@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, NavItem, Row } from 'react-bootstrap';
+import { Nav, NavItem, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import firebase from '../../services/firebase';
@@ -78,50 +78,59 @@ const Home = ({ history }) => {
 			<Layout>
 				<Nav className="d-flex justify-content-end">
 					<Link to="/register">
-						<NavItem className="my-3 mx-3">Register</NavItem>
+						<NavItem className="my-1 mx-3">Register</NavItem>
 					</Link>
 					<Link to="/login">
-						<NavItem className="my-3 ml-3 mr-5">Login</NavItem>
+						<NavItem className="my-1 ml-3 mr-5">Login</NavItem>
 					</Link>
 					<Link to="/settings">
-						<NavItem className="my-3 ml-3 mr-5">Settings</NavItem>
+						<NavItem className="my-1 ml-3 mr-5">Settings</NavItem>
 					</Link>
 				</Nav>
-				<h4>NOT LOGGED IN</h4>
 				<Row>
-					<div className="dropdown">
-						<button
-							className="btn btn-secondary dropdown-toggle"
-							type="button"
-							id="dropdownMenuButton"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
-							{city.length > 0 ? centerZoom[city].displayName : 'Select a city'}
-						</button>
-						<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							{keys.map(city => (
-								<div
-									key={city}
-									className="dropdown-item"
-									onClick={() => newLocation(city)}
-								>
-									{centerZoom[city].displayName}
-								</div>
-							))}
+					<Col sm={1}>
+						<div className="dropdown ml-2">
+							<button
+								className="btn-sm btn-secondary dropdown-toggle"
+								type="button"
+								id="dropdownMenuButton"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								{city.length > 0
+									? centerZoom[city].displayName
+									: 'Select a city'}
+							</button>
+							<div
+								className="dropdown-menu"
+								style={{ minWidth: '7rem' }}
+								aria-labelledby="dropdownMenuButton"
+							>
+								{keys.map(city => (
+									<div
+										key={city}
+										className="dropdown-item p-0"
+										onClick={() => newLocation(city)}
+									>
+										{centerZoom[city].displayName}
+									</div>
+								))}
+							</div>
 						</div>
-					</div>
+					</Col>
+					<Col>
+						<DisplayGoogleMap
+							center={center}
+							zoom={zoom}
+							articles={articles}
+							selectedArticle={selectedArticle}
+							onChangeSelectedArticle={setSelectArticle}
+						/>
+					</Col>
 				</Row>
-				<Row className="d-flex justify-content-center my-3">
-					<DisplayGoogleMap
-						center={center}
-						zoom={zoom}
-						articles={articles}
-						selectedArticle={selectedArticle}
-						onChangeSelectedArticle={setSelectArticle}
-					/>
-				</Row>
+				{/* <Row className="d-flex justify-content-center my-3">
+				</Row> */}
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
 				</Row>

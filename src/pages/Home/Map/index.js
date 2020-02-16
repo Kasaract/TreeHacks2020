@@ -57,7 +57,7 @@ const Map = ({
 
 					<Card
 						className="my-3 mx-1"
-						style={{ width: '16rem', overflow: 'hidden', borderRadius: '1rem' }}
+						style={{ width: '10rem', overflow: 'hidden', borderRadius: '1rem' }}
 					>
 						<a
 							href={selectedArticle.url}
@@ -72,12 +72,16 @@ const Map = ({
 								target="_blank"
 								rel="noreferrer noopener"
 							>
-								<Card.Title style={{ fontSize: '1.05rem' }}>
+								<Card.Title style={{ fontSize: '0.75rem' }}>
 									{selectedArticle.title}
 								</Card.Title>
 							</a>
-							<Card.Text style={{ fontSize: '0.85rem' }}>
-								{selectedArticle.description}
+							<Card.Text style={{ fontSize: '0.6rem' }}>
+								{selectedArticle.description
+									.split(' ')
+									.slice(0, 15)
+									.join(' ')}
+								{'...'}
 							</Card.Text>
 						</Card.Body>
 					</Card>

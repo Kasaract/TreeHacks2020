@@ -24,7 +24,7 @@ const ArticleCard = ({
 	return (
 		<Card
 			className="my-3 mx-1 cardParent"
-			style={{ width: '16rem', overflow: 'hidden', borderRadius: '1rem' }}
+			style={{ width: '12rem', overflow: 'hidden', borderRadius: '1rem' }}
 			onClick={() => onClick()}
 		>
 			<a href={link} target="_blank" rel="noreferrer noopener">
@@ -32,11 +32,11 @@ const ArticleCard = ({
 			</a>
 			<Card.Body className="p-2">
 				<a href={link} target="_blank" rel="noreferrer noopener">
-					<Card.Title style={{ fontSize: '1.05rem' }}>{title}</Card.Title>
+					<Card.Title style={{ fontSize: '0.85rem' }}>{title}</Card.Title>
 				</a>
 				<Card.Subtitle
 					className="mb-2 font-italic font-weight-light d-flex justify-content-between"
-					style={{ fontSize: '0.75rem' }}
+					style={{ fontSize: '0.70rem' }}
 				>
 					<div>{`${source} ${author}`} </div>
 					<div className="icons">
@@ -48,11 +48,12 @@ const ArticleCard = ({
 						<FontAwesomeIcon icon={faCodeBranch} />
 					</div>
 				</Card.Subtitle>
-				<Card.Text style={{ fontSize: '0.85rem' }}>
+				<Card.Text style={{ fontSize: '0.75rem' }}>
 					{preview
 						.split(' ')
 						.slice(0, 15)
 						.join(' ')}
+					{'...'}
 				</Card.Text>
 			</Card.Body>
 		</Card>
