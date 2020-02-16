@@ -6,21 +6,16 @@ import firebase from '../../services/firebase';
 import Layout from '../../components/Layout';
 import ArticleCard from '../../components/ArticleCard';
 
-import * as articleData from './articles.json';
-import DisplayGoogleMap from './Map';
+import * as savedArticles from './savedarticles.json';
+import DisplayGoogleMap from '../Home/Map';
 
-const Home = ({ history }) => {
-	const [articles, setArticles] = useState([]);
-	const [center, setCenter] = useState({ lat: 40.712776, lng: -74.005974 });
-	const [zoom, setZoom] = useState(12);
+const Saved = ({ history }) => {
 
-	useEffect(() => setArticles(articleData.articles.splice(0, 10)), []);
-
-	const onSignOut = () => {
+    const onSignOut = () => {
 		firebase.logout().then(() => history.push('/'));
 	};
 
-	const displayArticles = articles.map(article => {
+    const displayArticles = savedArticles.articles.map(article => {
 		return (
 			<ArticleCard
 				key={article.publishedAt}
@@ -34,7 +29,7 @@ const Home = ({ history }) => {
 		);
 	});
 
-	if (!firebase.getCurrentUsername()) {
+    if (!firebase.getCurrentUsername()) {
 		return (
 			<Layout>
 				<Nav className="d-flex justify-content-end">
@@ -44,49 +39,19 @@ const Home = ({ history }) => {
 					<Link to="/login">
 						<NavItem className="my-3 ml-3 mr-5">Login</NavItem>
 					</Link>
-					<Link to="/settings">
-						<NavItem className="my-3 ml-3 mr-5">Settings</NavItem>
-					</Link>
 				</Nav>
 				<h4>NOT LOGGED IN</h4>
-				<Row>
-					<button
-						onClick={() => {
-							setCenter({ lat: 56.130367, lng: -106.346771 });
-							setZoom(3);
-						}}
-					>
-						Canada
-					</button>
-					<button
-						onClick={() => {
-							setCenter({ lat: 23.634501, lng: -102.552788 });
-							setZoom(5);
-						}}
-					>
-						Mexico
-					</button>
-					<button
-						onClick={() => {
-							setCenter({ lat: 38, lng: -95.712891 });
-							setZoom(4);
-						}}
-					>
-						United States
-					</button>
-					<div>{JSON.stringify(center)}</div>
-				</Row>
 				<Row className="d-flex justify-content-center my-3">
-					<DisplayGoogleMap center={center} zoom={zoom} />
+					<DisplayGoogleMap zoom={70} />
 				</Row>
 				<Row className="d-flex flex-wrap justify-content-around px-3">
 					{displayArticles}
 				</Row>
 			</Layout>
 		);
-	}
-
-	return (
+    }
+    
+    return (
 		<Layout>
 			<Nav className="d-flex justify-content-end">
 				<Link to="/saved">
@@ -101,13 +66,14 @@ const Home = ({ history }) => {
 			<h4>LOGGED IN!!</h4>
 			<h2>Hello {firebase.getCurrentUsername()}</h2>
 			<Row className="d-flex justify-content-center my-3">
-				{/* <DisplayGoogleMap /> */}
+				<DisplayGoogleMap zoom={70} />
 			</Row>
 			<Row className="d-flex flex-wrap justify-content-around px-3">
 				{displayArticles}
 			</Row>
 		</Layout>
 	);
+
 };
 
-export default Home;
+export default Saved;
